@@ -1,0 +1,18 @@
+{
+    "manifest_version": 2,
+    "name": "Otomoto Scrapper",
+    "version": "1.0",
+    "background": {
+      "persistent": true,
+      "scripts": ["background.js"]
+    },
+    "content_scripts": [{
+      "matches": ["*://*.otomoto.pl/*"],
+      "js": ["content.js"]
+    }],
+    "browser_action": {
+      "default_title": "Otomoto Scrapper",
+      "default_popup": "popup.html"
+    },
+    "permissions": ["activeTab"]
+  }

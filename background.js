@@ -1,0 +1,2 @@
+
+var scrappedData = []; //session storage
