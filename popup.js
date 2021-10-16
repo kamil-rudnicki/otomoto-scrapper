@@ -21,6 +21,24 @@ let json2Table = function(json) {
     return table;
 }
 
+let generateCsv = function(json) {
+    let cols = Object.keys(json[0]);
+
+    let table = cols
+        .map(col => `${col},`)
+        .join("");
+    table += '\n';
+
+    let rows = json
+        .map(row => {
+            let tds = cols.map(col => (row[col] ? row[col].replace(/,/g, '-') : '') + ',').join("");
+            return `${tds}\n`;
+        })
+        .join("");
+
+    return table + rows;
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     let table = document.getElementById('scrappedData');
     let backgroundWindow = chrome.extension.getBackgroundPage();
@@ -44,6 +62,15 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('purgeTable').addEventListener('click', () => {
         backgroundWindow.scrappedData = [];
         table.innerHTML = ""; 
+    });
+
+    document.getElementById('getFile').addEventListener('click', () => {
+        var hiddenElement = document.createElement('a');
+        console.log(generateCsv(backgroundWindow.scrappedData));
+        hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(generateCsv(backgroundWindow.scrappedData));
+        hiddenElement.target = '_blank';
+        hiddenElement.download = 'cars_table.csv';
+        hiddenElement.click();
     });
 
     (function () {

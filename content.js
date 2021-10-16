@@ -13,6 +13,18 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
         numb = numb.join("");
         data.cena = numb;
 
+        //get add date
+        data.data_dodania = document.getElementsByClassName('offer-meta__value')[0].innerText;
+        
+        //get od_kogo
+        data.od_kogo = document.getElementsByClassName('seller-heading__seller-name')[0].innerText;
+        
+        //get miasto
+        data.miasto = document.getElementsByClassName('seller-card__links__link__cta')[0].innerText;
+
+        //get now
+        data.dzisiejsza_data = new Date().toISOString().slice(0, 10);
+
         //get car attributes
         var params = []
         var elements = document.getElementsByClassName('offer-params__item');
@@ -66,6 +78,10 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
             'kolor_rodzaj', 
             'dodatki', 
             'url', 
+            'data_dodania', 
+            'od_kogo', 
+            'miasto', 
+            'dzisiejsza_data', 
         ];
         let orderedRow = {};
         for (var i=0; i<fieldsOrder.length; i++) {
